@@ -395,9 +395,121 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 
+    // ===========================
+    // Dynamic timeline durations (LinkedIn-like month calculation)
+    // ===========================
+    function monthsBetween(startDate, endDate) {
+        const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+        let years = end.getFullYear() - start.getFullYear();
+        let months = end.getMonth() - start.getMonth();
+        let total = years * 12 + months;
+        // Subtract one month if end day is before start day (not a full month yet)
+        if (end.getDate() < start.getDate()) total -= 1;
+        return Math.max(0, total);
+    }
+
+    function formatMonths(totalMonths) {
+        if (totalMonths === 0) return 'Less than a month';
+        if (totalMonths === 1) return '1 month';
+        if (totalMonths < 12) return `${totalMonths} months`;
+        const yrs = Math.floor(totalMonths / 12);
+        const rem = totalMonths % 12;
+        if (rem === 0) return `${yrs} ${yrs === 1 ? 'year' : 'years'}`;
+        return `${yrs} ${yrs === 1 ? 'year' : 'years'} ${rem} ${rem === 1 ? 'month' : 'months'}`;
+    }
+
+    // Find timeline items with a data-start attribute and update their .duration span
+    const timelineItems = document.querySelectorAll('.timeline-item[data-start]');
+    timelineItems.forEach(item => {
+        try {
+            const startAttr = item.getAttribute('data-start');
+            if (!startAttr) return;
+            const startDate = new Date(startAttr);
+            const dateEl = item.querySelector('.timeline-date');
+            const durationEl = dateEl ? dateEl.querySelector('.duration') : null;
+            if (!durationEl) return;
+
+            // Determine end: if the text contains 'Present' use today, otherwise try to parse an end date from the text
+            const dateText = dateEl.textContent || '';
+            let endDate = new Date();
+            if (!/present/i.test(dateText)) {
+                // Attempt to extract an end month and year from the text (e.g., "Dec 2023")
+                const m = dateText.match(/-\s*([A-Za-z]+)\s+(\d{4})/);
+                if (m) {
+                    const parsed = new Date(`${m[1]} 1, ${m[2]}`);
+                    if (!isNaN(parsed)) endDate = parsed;
+                }
+            }
+
+            const months = monthsBetween(startDate, endDate);
+            durationEl.textContent = formatMonths(months);
+        } catch (err) {
+            // Fail silently; do not disrupt other scripts
+            console.warn('Failed to compute timeline duration', err);
+        }
+    });
+
 // ===========================
 // Utility Functions
 // ===========================
+
+// Auto-update timeline durations for current jobs (elements with `data-start`)
+// Behavior: count elapsed months and round up any partial month so e.g.,
+// start in June and current date in December shows 7 months.
+document.addEventListener('DOMContentLoaded', function() {
+    function pluralize(n, word) {
+        return `${n} ${word}${n === 1 ? '' : 's'}`;
+    }
+
+    function computeTotalMonths(startDate, endDate) {
+        const s = new Date(startDate);
+        const e = new Date(endDate);
+        let months = (e.getFullYear() - s.getFullYear()) * 12 + (e.getMonth() - s.getMonth());
+
+        // If current day-of-month is >= start day-of-month, count as an additional (partial) month
+        if (e.getDate() >= s.getDate()) {
+            months += 1;
+        }
+
+        return Math.max(0, months);
+    }
+
+    function formatMonths(totalMonths) {
+        if (totalMonths < 12) {
+            return pluralize(totalMonths, 'month');
+        }
+
+        const years = Math.floor(totalMonths / 12);
+        const months = totalMonths % 12;
+
+        if (months === 0) return pluralize(years, 'year');
+        return `${pluralize(years, 'year')} ${pluralize(months, 'month')}`;
+    }
+
+    const items = document.querySelectorAll('.timeline-item[data-start]');
+    items.forEach(item => {
+        const dateEl = item.querySelector('.timeline-date');
+        if (!dateEl) return;
+
+        const dataStart = item.getAttribute('data-start');
+        if (!dataStart) return;
+
+        const text = dateEl.textContent || '';
+        if (!/present/i.test(text)) return; // only update ongoing roles
+
+        const totalMonths = computeTotalMonths(dataStart, new Date());
+        const duration = formatMonths(totalMonths);
+
+        const startLabel = new Date(dataStart).toLocaleString(undefined, { month: 'long', year: 'numeric' });
+
+        // Preserve trailing info after '|' if present
+        const parts = text.split('|');
+        const right = parts[1] ? ` | ${parts[1].trim()}` : '';
+
+        dateEl.textContent = `${startLabel} - Present · ${duration}${right}`;
+    });
+});
 
 // Debounce function for performance
 function debounce(func, wait) {
