@@ -2,14 +2,16 @@
    CSS Variables & Reset
    =========================== */
 :root {
-    --primary-color: #0066ff;
-    --secondary-color: #00d4ff;
-    --dark-bg: #0a0a0a;
-    --card-bg: #1a1a1a;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --accent-gradient: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
-    --success-color: #00ff88;
+    --primary-color: #0b82d9;
+    --secondary-color: #0fb9b1;
+    --dark-bg: #f4f9ff;
+    --card-bg: #ffffff;
+    --text-primary: #14324d;
+    --text-secondary: #4d6b88;
+    --accent-gradient: linear-gradient(135deg, #0b82d9 0%, #0fb9b1 100%);
+    --success-color: #1f9d66;
+    --surface-soft: rgba(255, 255, 255, 0.78);
+    --surface-border: rgba(11, 130, 217, 0.18);
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 2rem;
@@ -17,9 +19,9 @@
     --spacing-xl: 6rem;
     --border-radius: 12px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 4px 14px rgba(11, 130, 217, 0.08);
+    --shadow-md: 0 10px 24px rgba(11, 130, 217, 0.12);
+    --shadow-lg: 0 16px 40px rgba(11, 130, 217, 0.16);
 }
 
 * {
@@ -102,14 +104,14 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     z-index: 1000;
-    background-color: rgba(10, 10, 10, 0.8);
+    background-color: rgba(244, 249, 255, 0.85);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--surface-border);
     transition: var(--transition);
 }
 
 .navbar.scrolled {
-    background-color: rgba(10, 10, 10, 0.95);
+    background-color: rgba(244, 249, 255, 0.96);
     box-shadow: var(--shadow-md);
 }
 
@@ -206,8 +208,8 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(0, 102, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 50%, rgba(11, 130, 217, 0.16) 0%, transparent 55%),
+                radial-gradient(circle at 80% 80%, rgba(15, 185, 177, 0.14) 0%, transparent 52%);
     z-index: 0;
 }
 
@@ -259,14 +261,14 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: column;
     padding: var(--spacing-sm);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface-soft);
     border-radius: var(--border-radius);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--surface-border);
     transition: var(--transition);
 }
 
 .stat:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: #ffffff;
     transform: translateY(-5px);
 }
 
@@ -305,30 +307,30 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-primary {
     background: var(--accent-gradient);
-    color: var(--text-primary);
-    box-shadow: 0 4px 20px rgba(0, 102, 255, 0.3);
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(11, 130, 217, 0.24);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 30px rgba(0, 102, 255, 0.4);
+    box-shadow: 0 10px 26px rgba(11, 130, 217, 0.3);
 }
 
 .btn-secondary {
     background: transparent;
-    color: var(--text-primary);
+    color: var(--primary-color);
     border: 2px solid var(--primary-color);
 }
 
 .btn-secondary:hover {
-    background: rgba(0, 102, 255, 0.1);
+    background: rgba(11, 130, 217, 0.12);
     transform: translateY(-2px);
 }
 
 /* Schedule button styling */
 .btn-schedule {
     background: transparent;
-    color: var(--text-primary);
+    color: var(--primary-color);
     border: 2px dashed var(--secondary-color);
     border-radius: 50px;
     font-weight: 700;
@@ -339,7 +341,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-schedule:hover,
 .btn-schedule:focus {
-    background: rgba(0, 212, 255, 0.06);
+    background: rgba(15, 185, 177, 0.12);
     transform: translateY(-2px);
     outline: none;
 }
@@ -381,7 +383,7 @@ h1, h2, h3, h4, h5, h6 {
    =========================== */
 .about {
     padding: var(--spacing-xl) 0;
-    background: linear-gradient(180deg, var(--dark-bg) 0%, rgba(0, 102, 255, 0.03) 50%, var(--dark-bg) 100%);
+    background: linear-gradient(180deg, var(--dark-bg) 0%, rgba(11, 130, 217, 0.07) 50%, var(--dark-bg) 100%);
 }
 
 .about-content {
@@ -406,7 +408,7 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--card-bg);
     padding: var(--spacing-md);
     border-radius: var(--border-radius);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--surface-border);
     transition: var(--transition);
 }
 
@@ -476,14 +478,14 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--primary-color);
     border-radius: 50%;
     border: 3px solid var(--dark-bg);
-    box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.2);
+    box-shadow: 0 0 0 4px rgba(11, 130, 217, 0.2);
 }
 
 .timeline-content {
     background: var(--card-bg);
     padding: var(--spacing-md);
     border-radius: var(--border-radius);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--surface-border);
     transition: var(--transition);
 }
 
@@ -549,7 +551,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tag {
-    background: rgba(255,255,255,0.03);
+    background: rgba(11, 130, 217, 0.08);
     padding: 0.25rem 0.6rem;
     border-radius: 999px;
     font-size: 0.85rem;
@@ -564,7 +566,7 @@ h1, h2, h3, h4, h5, h6 {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.06);
+    background: rgba(11, 130, 217, 0.2);
     pointer-events: none;
     transform: translateY(0);
     animation: particleFloat 5s linear infinite;
@@ -580,7 +582,7 @@ h1, h2, h3, h4, h5, h6 {
     position: fixed;
     right: 20px;
     bottom: 20px;
-    background: rgba(0,0,0,0.85);
+    background: rgba(20, 50, 77, 0.92);
     color: white;
     padding: 0.6rem 1rem;
     border-radius: 8px;
@@ -653,8 +655,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .skill-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.04);
+    background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.76));
+    border: 1px solid var(--surface-border);
     padding: 1rem;
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
@@ -677,12 +679,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .chip {
-    background: rgba(255,255,255,0.03);
+    background: rgba(11, 130, 217, 0.08);
     color: var(--text-secondary);
     padding: 0.35rem 0.6rem;
     border-radius: 999px;
     font-size: 0.9rem;
-    border: 1px solid rgba(255,255,255,0.02);
+    border: 1px solid rgba(11, 130, 217, 0.12);
 }
 
 .skill-card:hover {
@@ -693,7 +695,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Certifications styling */
 .certifications {
     padding: var(--spacing-xl) 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,0.01) 100%);
+    background: linear-gradient(180deg, rgba(244, 249, 255, 0.6) 0%, rgba(11, 130, 217, 0.06) 100%);
 }
 
 .cert-list {
@@ -703,8 +705,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .cert-list li {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.03);
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--surface-border);
     padding: 0.8rem 1rem;
     border-radius: 10px;
     margin-bottom: 0.6rem;
@@ -759,8 +761,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .cert-card {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.03);
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--surface-border);
     padding: 0.8rem 1rem;
     border-radius: 10px;
     margin-bottom: 0.4rem;
